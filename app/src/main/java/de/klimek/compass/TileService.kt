@@ -25,6 +25,8 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
         get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     private val sensor by lazy {
+        // TYPE_ROTATION_VECTOR is a fusion of gyro, accelerometer and compass.
+        // This is more accurate and responsive than TYPE_MAGNETIC_FIELD.
         sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
     }
 
@@ -32,13 +34,6 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
         get() = sensor != null
 
     private lateinit var iconFactory: IconFactory
-
-    private val screenOffReceiver = ScreenOffReceiver {
-        Log.i(TAG, "Screen off")
-        if (isSupported && qsTile.state == Tile.STATE_ACTIVE) {
-            setInactive()
-        }
-    }
 
     override fun onCreate() {
         Log.i(TAG, "Create")
@@ -86,14 +81,12 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
     private fun startCompass() {
         Log.i(TAG, "Start")
         startForeground(NOTIFICATION_ID, notification())
-        registerReceiver(screenOffReceiver, screenOffReceiver.filter)
         sensorManager.registerListener(this, sensor, SENSOR_DELAY)
     }
 
     private fun stopCompass() {
         Log.i(TAG, "Stop")
         sensorManager.unregisterListener(this)
-        unregisterReceiver(screenOffReceiver)
         stopForeground(true)
     }
 
