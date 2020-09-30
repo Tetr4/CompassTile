@@ -37,7 +37,7 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
 
     override fun onCreate() {
         Log.i(TAG, "Create")
-        iconFactory = IconFactory(this, R.drawable.ic_arrow)
+        iconFactory = IconFactory(applicationContext, R.drawable.ic_arrow)
         notificationManager.createNotificationChannel(channel())
         if (!isSupported) {
             qsTile.update { state = Tile.STATE_UNAVAILABLE }
@@ -45,22 +45,22 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
     }
 
     override fun onStartListening() {
-        if (isSupported && qsTile.state == Tile.STATE_ACTIVE) {
-            startCompass()
+        when (qsTile.state) {
+            Tile.STATE_ACTIVE -> startCompass()
         }
     }
 
     override fun onStopListening() {
-        if (isSupported && qsTile.state == Tile.STATE_ACTIVE) {
-            stopCompass()
+        when (qsTile.state) {
+            Tile.STATE_ACTIVE -> stopCompass()
         }
     }
 
     override fun onClick() {
-        if (qsTile.state == Tile.STATE_ACTIVE) {
-            setInactive()
-        } else {
-            setActive()
+        when (qsTile.state) {
+            Tile.STATE_ACTIVE -> setInactive()
+            Tile.STATE_INACTIVE -> setActive()
+            Tile.STATE_UNAVAILABLE -> Unit
         }
     }
 
@@ -72,7 +72,7 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
     private fun setInactive() {
         qsTile.update {
             state = Tile.STATE_INACTIVE
-            icon = Icon.createWithResource(this@TileService, R.drawable.ic_arrow_disabled)
+            icon = Icon.createWithResource(applicationContext, R.drawable.ic_arrow_disabled)
             label = getString(R.string.app_name)
         }
         stopCompass()
@@ -91,6 +91,7 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) = Unit
+
     override fun onSensorChanged(event: SensorEvent) {
         val degrees = event.getAzimuthDegrees()
         Log.v(TAG, degrees.toString())

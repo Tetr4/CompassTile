@@ -10,7 +10,8 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 
 class IconFactory(context: Context, @DrawableRes drawableRes: Int) {
-    // cached for better memory
+
+    // drawable and bitmap cache for better memory
     private val arrowDrawable = ContextCompat.getDrawable(context, drawableRes)!!
     private val iconBitmap = Bitmap.createBitmap(
         arrowDrawable.intrinsicWidth, arrowDrawable.intrinsicHeight,
