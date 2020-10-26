@@ -9,6 +9,7 @@ import android.graphics.drawable.Icon
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 
+/** Factory for creating (and caching) rotated icons. */
 class IconFactory(context: Context, @DrawableRes drawableRes: Int) {
 
     // drawable and bitmap cache for better memory

@@ -37,7 +37,7 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
 
     override fun onCreate() {
         Log.i(TAG, "Create")
-        iconFactory = IconFactory(applicationContext, R.drawable.ic_arrow)
+        iconFactory = IconFactory(applicationContext, R.drawable.ic_qs_compass_on)
         notificationManager.createNotificationChannel(channel())
         if (!isSupported) {
             qsTile.update { state = Tile.STATE_UNAVAILABLE }
@@ -72,8 +72,8 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
     private fun setInactive() {
         qsTile.update {
             state = Tile.STATE_INACTIVE
-            icon = Icon.createWithResource(applicationContext, R.drawable.ic_arrow_disabled)
-            label = getString(R.string.app_name)
+            icon = Icon.createWithResource(applicationContext, R.drawable.ic_qs_compass_off)
+            label = getString(R.string.tile_label)
         }
         stopCompass()
     }
