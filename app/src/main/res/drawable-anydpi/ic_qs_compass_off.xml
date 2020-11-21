@@ -23,7 +23,6 @@
     android:viewportWidth="48"
     android:viewportHeight="48">
     <path
-        android:fillAlpha="0.33"
         android:fillColor="@android:color/white"
         android:pathData="M42,39.2L8.8,6L6,8.8l9.8,9.8l-1.5,3.7c-0.4,1-0.4,2.2,0,3.3l7.8,19.1c0.7,1.7,3.1,1.7,3.8,0l4.6-11.3
 l8.6,8.6L42,39.2Z
