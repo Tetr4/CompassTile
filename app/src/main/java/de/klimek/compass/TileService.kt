@@ -9,6 +9,7 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.service.quicksettings.Tile
 import android.util.Log
+import android.widget.Toast
 import de.klimek.compass.tile.IconFactory
 import de.klimek.compass.tile.label
 import de.klimek.compass.tile.update
@@ -41,39 +42,42 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
         Log.i(TAG, "Create")
         iconFactory = IconFactory(applicationContext, R.drawable.ic_qs_compass_on)
         notificationManager.createNotificationChannel(channel())
-        if (!isSupported) {
-            Log.w(TAG, "Device not supported")
-            qsTile?.update { state = Tile.STATE_UNAVAILABLE }
-        }
     }
 
     override fun onStartListening() {
-        when (qsTile?.state) {
+        when (qsTile.state) {
             Tile.STATE_ACTIVE -> startCompass()
         }
     }
 
     override fun onStopListening() {
-        when (qsTile?.state) {
+        when (qsTile.state) {
             Tile.STATE_ACTIVE -> stopCompass()
         }
     }
 
     override fun onClick() {
-        when (qsTile?.state) {
+        if (!isSupported) showNotSupported() else toggleTile()
+    }
+
+    private fun showNotSupported() {
+        Toast.makeText(this, R.string.not_supported, Toast.LENGTH_LONG).show()
+    }
+
+    private fun toggleTile() {
+        when (qsTile.state) {
             Tile.STATE_ACTIVE -> setInactive()
             Tile.STATE_INACTIVE -> setActive()
-            Tile.STATE_UNAVAILABLE -> Unit
         }
     }
 
     private fun setActive() {
-        qsTile?.update { state = Tile.STATE_ACTIVE }
+        qsTile.update { state = Tile.STATE_ACTIVE }
         startCompass()
     }
 
     private fun setInactive() {
-        qsTile?.update {
+        qsTile.update {
             state = Tile.STATE_INACTIVE
             icon = Icon.createWithResource(applicationContext, R.drawable.ic_qs_compass_off)
             label = getString(R.string.tile_label)
@@ -98,7 +102,7 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
     override fun onSensorChanged(event: SensorEvent) {
         val degrees = event.getAzimuthDegrees()
         Log.v(TAG, degrees.toString())
-        qsTile?.update {
+        qsTile.update {
             label = label(degrees)
             icon = iconFactory.build(degrees)
         }
