@@ -40,24 +40,25 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
         iconFactory = IconFactory(applicationContext, R.drawable.ic_qs_compass_on)
         notificationManager.createNotificationChannel(channel())
         if (!isSupported) {
-            qsTile.update { state = Tile.STATE_UNAVAILABLE }
+            Log.w(TAG, "Device not supported")
+            qsTile?.update { state = Tile.STATE_UNAVAILABLE }
         }
     }
 
     override fun onStartListening() {
-        when (qsTile.state) {
+        when (qsTile?.state) {
             Tile.STATE_ACTIVE -> startCompass()
         }
     }
 
     override fun onStopListening() {
-        when (qsTile.state) {
+        when (qsTile?.state) {
             Tile.STATE_ACTIVE -> stopCompass()
         }
     }
 
     override fun onClick() {
-        when (qsTile.state) {
+        when (qsTile?.state) {
             Tile.STATE_ACTIVE -> setInactive()
             Tile.STATE_INACTIVE -> setActive()
             Tile.STATE_UNAVAILABLE -> Unit
@@ -65,12 +66,12 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
     }
 
     private fun setActive() {
-        qsTile.update { state = Tile.STATE_ACTIVE }
+        qsTile?.update { state = Tile.STATE_ACTIVE }
         startCompass()
     }
 
     private fun setInactive() {
-        qsTile.update {
+        qsTile?.update {
             state = Tile.STATE_INACTIVE
             icon = Icon.createWithResource(applicationContext, R.drawable.ic_qs_compass_off)
             label = getString(R.string.tile_label)
@@ -95,7 +96,7 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
     override fun onSensorChanged(event: SensorEvent) {
         val degrees = event.getAzimuthDegrees()
         Log.v(TAG, degrees.toString())
-        qsTile.update {
+        qsTile?.update {
             label = label(degrees)
             icon = iconFactory.build(degrees)
         }
