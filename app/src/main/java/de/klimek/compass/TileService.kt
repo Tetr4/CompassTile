@@ -25,9 +25,11 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
         get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     private val sensor by lazy {
-        // TYPE_ROTATION_VECTOR is a fusion of gyro, accelerometer and compass.
-        // This is more accurate and responsive than TYPE_MAGNETIC_FIELD.
+        // TYPE_ROTATION_VECTOR is a fusion of gyro, accelerometer and magnetometer, which is more
+        // accurate and responsive than just using the magnetometer.
+        // TYPE_GEOMAGNETIC_ROTATION_VECTOR is used as a fallback if gyro is not available.
         sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+            ?: sensorManager.getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR)
     }
 
     private val isSupported
