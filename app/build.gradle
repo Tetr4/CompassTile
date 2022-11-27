@@ -11,8 +11,8 @@ android {
         applicationId 'de.klimek.compass'
         minSdkVersion 26
         targetSdkVersion 33
-        versionCode 4
-        versionName "1.1.0"
+        versionCode 5
+        versionName "1.2.0"
     }
 
     buildTypes {
