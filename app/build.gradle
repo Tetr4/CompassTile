@@ -4,12 +4,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    namespace 'de.klimek.compass'
+    compileSdkVersion 33
 
     defaultConfig {
-        applicationId "de.klimek.compass"
+        applicationId 'de.klimek.compass'
         minSdkVersion 26
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 4
         versionName "1.1.0"
     }
@@ -33,6 +34,5 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
 }
