@@ -8,7 +8,7 @@ import android.content.Intent
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
 
-const val CHANNEL_ID = "COMPASS_CHANNEL"
+private const val CHANNEL_ID = "COMPASS_CHANNEL"
 const val NOTIFICATION_ID = 1
 
 fun TileService.channel() = NotificationChannel(
@@ -25,7 +25,7 @@ fun TileService.notification(): Notification = NotificationCompat.Builder(this, 
 
 fun TileService.notificationClickIntent(): PendingIntent {
     val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-        putExtra(Settings.EXTRA_APP_PACKAGE, BuildConfig.APPLICATION_ID)
+        putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
         addCategory(Intent.CATEGORY_DEFAULT)
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }

@@ -16,7 +16,7 @@ import de.klimek.compass.tile.IconFactory
 import de.klimek.compass.tile.label
 import de.klimek.compass.tile.update
 
-private val TAG = TileService::class.java.simpleName
+private const val TAG = "TileService"
 private const val SENSOR_DELAY = SensorManager.SENSOR_DELAY_UI
 
 class TileService : android.service.quicksettings.TileService(), SensorEventListener {
@@ -50,6 +50,11 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
         Log.i(TAG, "Create")
         iconFactory = IconFactory(applicationContext, R.drawable.ic_qs_compass_on)
         notificationManager?.createNotificationChannel(channel())
+    }
+
+    override fun onDestroy() {
+        Log.i(TAG, "Destroy")
+        super.onDestroy()
     }
 
     override fun onStartListening() {

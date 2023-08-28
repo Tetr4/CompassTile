@@ -7,7 +7,6 @@ import android.view.Surface.ROTATION_180
 import android.view.Surface.ROTATION_270
 import android.view.Surface.ROTATION_90
 
-
 fun SensorEvent.getAzimuthDegrees(displayRotation: Int?): Float {
     val rotationMatrix = FloatArray(9).also {
         SensorManager.getRotationMatrixFromVector(it, this.values)
