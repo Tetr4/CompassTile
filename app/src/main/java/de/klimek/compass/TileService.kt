@@ -58,13 +58,13 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
     }
 
     override fun onStartListening() {
-        when (qsTile.state) {
+        when (qsTile?.state) {
             Tile.STATE_ACTIVE -> startCompass()
         }
     }
 
     override fun onStopListening() {
-        when (qsTile.state) {
+        when (qsTile?.state) {
             Tile.STATE_ACTIVE -> stopCompass()
         }
     }
@@ -78,19 +78,19 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
     }
 
     private fun toggleTile() {
-        when (qsTile.state) {
+        when (qsTile?.state) {
             Tile.STATE_ACTIVE -> setInactive()
             Tile.STATE_INACTIVE -> setActive()
         }
     }
 
     private fun setActive() {
-        qsTile.update { state = Tile.STATE_ACTIVE }
+        qsTile?.update { state = Tile.STATE_ACTIVE }
         startCompass()
     }
 
     private fun setInactive() {
-        qsTile.update {
+        qsTile?.update {
             state = Tile.STATE_INACTIVE
             icon = Icon.createWithResource(applicationContext, R.drawable.ic_qs_compass_off)
             label = getString(R.string.tile_label)
@@ -115,7 +115,7 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
     override fun onSensorChanged(event: SensorEvent) {
         val degrees = event.getAzimuthDegrees(displayRotation)
         Log.v(TAG, degrees.toString())
-        qsTile.update {
+        qsTile?.update {
             label = label(degrees)
             icon = iconFactory.build(degrees)
         }
