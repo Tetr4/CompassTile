@@ -9,7 +9,7 @@ Compass as a tile for the Android quick settings menu. Based on a feature from a
 <br>
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/3826929/99881208-b015fb80-2c18-11eb-92cf-be0018678673.png" alt="quick settings collapsed" height="350" />
+<img src="https://github.com/Tetr4/CompassTile/assets/3826929/a615d23b-085f-4187-820e-af7ef60927fc" alt="compass tile" height="350" />
 &nbsp;
-<img src="https://user-images.githubusercontent.com/3826929/99881213-b4daaf80-2c18-11eb-8003-baf0cc136893.png" alt="quick settings expanded" height="350" />
+<img src="https://github.com/Tetr4/CompassTile/assets/3826929/f2673fa6-28b9-47a4-850e-6a213bb6e846" alt="compass tile disabled" height="350" />
 </p>
