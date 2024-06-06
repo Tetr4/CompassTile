@@ -1,12 +1,14 @@
 package de.klimek.compass
 
 import android.app.NotificationManager
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST
 import android.graphics.drawable.Icon
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.hardware.display.DisplayManager
+import android.os.Build
 import android.service.quicksettings.Tile
 import android.util.Log
 import android.view.Display
@@ -50,10 +52,17 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
         Log.i(TAG, "Create")
         iconFactory = IconFactory(applicationContext, R.drawable.ic_qs_compass_on)
         notificationManager?.createNotificationChannel(channel())
+        // We need to start this service as a foreground service, because sensor data can only be access in foreground.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            startForeground(NOTIFICATION_ID, notification(), FOREGROUND_SERVICE_TYPE_MANIFEST)
+        } else {
+            startForeground(NOTIFICATION_ID, notification())
+        }
     }
 
     override fun onDestroy() {
         Log.i(TAG, "Destroy")
+        stopForeground(STOP_FOREGROUND_REMOVE)
         super.onDestroy()
     }
 
@@ -100,14 +109,12 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
 
     private fun startCompass() {
         Log.i(TAG, "Start")
-        startForeground(NOTIFICATION_ID, notification())
         sensorManager?.registerListener(this, sensor, SENSOR_DELAY)
     }
 
     private fun stopCompass() {
         Log.i(TAG, "Stop")
         sensorManager?.unregisterListener(this)
-        stopForeground(STOP_FOREGROUND_REMOVE)
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) = Unit
