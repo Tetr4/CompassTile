@@ -21,6 +21,10 @@ import de.klimek.compass.tile.update
 private const val TAG = "TileService"
 private const val SENSOR_DELAY = SensorManager.SENSOR_DELAY_UI
 
+// On Android 14 foreground service can not be started in onClick or onStartListening due to a bug:
+// https://issuetracker.google.com/issues/299506164
+private val START_FOREGROUND_IMMEDIATELY = Build.VERSION.SDK_INT == Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+
 class TileService : android.service.quicksettings.TileService(), SensorEventListener {
 
     private val sensorManager
@@ -52,13 +56,8 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
         Log.i(TAG, "Create")
         iconFactory = IconFactory(applicationContext, R.drawable.ic_qs_compass_on)
         notificationManager?.createNotificationChannel(channel())
-        // We need to start this service as a foreground service, because sensor data can only be access in foreground.
-        // This needs to be done in onCreate instead of onStartListening due to a bug in Android 14:
-        // https://issuetracker.google.com/issues/329096324
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+        if (START_FOREGROUND_IMMEDIATELY) {
             startForeground(NOTIFICATION_ID, notification(), FOREGROUND_SERVICE_TYPE_MANIFEST)
-        } else {
-            startForeground(NOTIFICATION_ID, notification())
         }
     }
 
@@ -111,11 +110,18 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
 
     private fun startCompass() {
         Log.i(TAG, "Start")
+        // Sensor data is only accessible in foreground, so we need to start this service as a foreground service.
+        if (!START_FOREGROUND_IMMEDIATELY) {
+            startForeground(NOTIFICATION_ID, notification())
+        }
         sensorManager?.registerListener(this, sensor, SENSOR_DELAY)
     }
 
     private fun stopCompass() {
         Log.i(TAG, "Stop")
+        if (!START_FOREGROUND_IMMEDIATELY) {
+            stopForeground(STOP_FOREGROUND_DETACH)
+        }
         sensorManager?.unregisterListener(this)
     }
 
