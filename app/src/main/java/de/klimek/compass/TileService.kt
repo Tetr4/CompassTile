@@ -53,6 +53,8 @@ class TileService : android.service.quicksettings.TileService(), SensorEventList
         iconFactory = IconFactory(applicationContext, R.drawable.ic_qs_compass_on)
         notificationManager?.createNotificationChannel(channel())
         // We need to start this service as a foreground service, because sensor data can only be access in foreground.
+        // This needs to be done in onCreate instead of onStartListening due to a bug in Android 14:
+        // https://issuetracker.google.com/issues/329096324
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             startForeground(NOTIFICATION_ID, notification(), FOREGROUND_SERVICE_TYPE_MANIFEST)
         } else {
