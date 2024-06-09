@@ -13,5 +13,8 @@
 !.idea/icon.*
 !.idea/.name
 
-# Filesystem
+# Keystore
+*.jks
+
+# OSX filesystem
 .DS_Store

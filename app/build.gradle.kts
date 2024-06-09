@@ -7,6 +7,15 @@ android {
     namespace = "de.klimek.compass"
     compileSdk = 34
 
+    signingConfigs {
+        create("release") {
+            keyAlias = "CompassKey"
+            keyPassword = System.getenv("SIGNING_PASSWORD") ?: ""
+            storeFile = file("../keystore.jks")
+            storePassword = System.getenv("SIGNING_PASSWORD") ?: ""
+        }
+    }
+
     defaultConfig {
         applicationId = "de.klimek.compass"
         minSdk = 26
@@ -19,6 +28,7 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
