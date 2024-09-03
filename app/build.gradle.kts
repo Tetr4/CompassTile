@@ -36,6 +36,12 @@ android {
     kotlin {
         jvmToolchain(17)
     }
+
+    dependenciesInfo {
+        // Disable proprietary dependency metadata
+        includeInApk = false
+        includeInBundle = false
+    }
 }
 
 dependencies {
