@@ -2,7 +2,8 @@
 
 # CompassTile
 
-<a href="https://play.google.com/store/apps/details?id=de.klimek.compass"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="80"/></a>
+[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="80">](https://play.google.com/store/apps/details?id=de.klimek.compass)
+[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="80">](https://apt.izzysoft.de/fdroid/index/apk/de.klimek.compass)
 
 Compass as a tile for the Android quick settings menu. Based on a feature from an old version of [CyanogenMod](https://review.lineageos.org/c/LineageOS/android_frameworks_base/+/179168).
 
