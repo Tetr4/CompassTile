@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: alvrme/alpine-android:android-34-jdk17
+    container: alvrme/alpine-android:android-36-jdk21
     env:
       SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
       KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}

@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "de.klimek.compass"
-    compileSdk = 34
+    compileSdk = 36
 
     signingConfigs {
         create("release") {
@@ -19,7 +19,7 @@ android {
     defaultConfig {
         applicationId = "de.klimek.compass"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 8
         versionName = "1.4.1"
         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -34,7 +34,7 @@ android {
     }
 
     kotlin {
-        jvmToolchain(17)
+        jvmToolchain(21)
     }
 
     dependenciesInfo {
@@ -45,5 +45,5 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
 }
