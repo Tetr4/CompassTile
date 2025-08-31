@@ -20,8 +20,8 @@ android {
         applicationId = "de.klimek.compass"
         minSdk = 26
         targetSdk = 36
-        versionCode = 8
-        versionName = "1.4.1"
+        versionCode = 9
+        versionName = "1.5.0"
         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
 
