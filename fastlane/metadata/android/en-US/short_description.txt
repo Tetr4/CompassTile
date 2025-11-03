@@ -1,0 +1,1 @@
+An easily accessible compass tile for the quick settings panel.
